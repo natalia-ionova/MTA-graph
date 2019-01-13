@@ -35,7 +35,7 @@ class Graph:
 
 
         pair_transfers = [(list_transfers_stops[i], list_transfers_stops[i+1]) for i in range(0, len(list_transfers_stops), 2)]
-        print(pair_transfers)
+
 
 
         for x in pair_transfers:
