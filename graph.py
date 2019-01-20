@@ -2,6 +2,7 @@ class Vertex:
     def __init__(self, key):
         self.id = key
         self.adjacent_to = []
+        self.visited = False
 
 
 class Graph:
@@ -36,8 +37,6 @@ class Graph:
 
         pair_transfers = [(list_transfers_stops[i], list_transfers_stops[i+1]) for i in range(0, len(list_transfers_stops), 2)]
 
-
-
         for x in pair_transfers:
             for y in x:
                 y = Vertex(y)
@@ -61,3 +60,18 @@ class Graph:
             return self.vertices[key]
         else:
             return None
+
+    def find_all_paths(self, s, e, path=[]):
+        '''Finds all paths given a start and end station'''
+        path = path + [s]
+        if s == e:
+            return [path]
+
+        paths = []
+        for vertex in self.vertices[s].adjacent_to:
+            if vertex not in path:
+                new_paths = self.find_all_paths(vertex, e, path)
+                for new_path in new_paths:
+                    paths.append(new_path)
+        return paths
+
