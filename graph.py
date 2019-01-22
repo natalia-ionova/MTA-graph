@@ -2,8 +2,7 @@ class Vertex:
     def __init__(self, key):
         self.id = key
         self.adjacent_to = []
-        self.visited = False
-
+        
 
 class Graph:
     '''Add additional helper methods if necessary.'''
