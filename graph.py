@@ -1,58 +1,57 @@
-'test'
+
 class Vertex:
     def __init__(self, key):
         self.id = key
         self.adjacent_to = []
-        
+
 
 class Graph:
-    '''Add additional helper methods if necessary.'''
-    def __init__(self, filename):
-        '''reads in the transfers.txt file and creates a graph using an adjacency list representation.
-           Graph is not directed so each edge specified
-           in the input file appears on the adjacency list of each vertex of the two vertices associated
-           with the edge.'''
 
+    def __init__(self):
         self.vertices = {}
-        input = open(filename, 'r')
-        lines = input.readlines()
-        lines = lines[1:]
 
-        lines = [x.strip() for x in lines]
-
-        list_transfers_all = []
-        for x in lines:
-            x = x.split()
-            list_transfers_all.append(x)
-
-
-        list_transfers_stops = []
-        for x in list_transfers_all:
-            str = x[0]
-            a = str[0:3]
-            b = str[4:7]
-            list_transfers_stops.append(a)
-            list_transfers_stops.append(b)
-
-
-        pair_transfers = [(list_transfers_stops[i], list_transfers_stops[i+1]) for i in range(0, len(list_transfers_stops), 2)]
-
-        for x in pair_transfers:
-            for y in x:
-                y = Vertex(y)
-                self.vertices[y.id] = y
-        for x in pair_transfers:
-            self.add_edge(x[0], x[1])
+        input = open('stops.txt', 'r')
+        for line in input:
+            d = line.split(',')
+            stop_id = d[0]
+            location_type = d[8]
+            if location_type == '1':
+                pass
+            else:
+                vertex = Vertex(stop_id)
+                self.vertices[vertex.id] = vertex
 
         input.close()
 
+
+        input = open('stop_times.txt', 'r')
+        prev_stop_id = None
+
+
+        for line in input:
+            d = line.split(',')
+            stop_id = d[3]
+            stop_seq = d[4]
+
+            if stop_seq != "1":
+                self.add_edge(prev_stop_id, stop_id)
+
+            prev_stop_id = stop_id
+        input.close()
+
+
+        #for key in self.vertices:
+        #    print(self.vertices[key].id, self.vertices[key].adjacent_to )
+
+
     def add_edge(self, v1, v2):
-        '''v1 and v2 are transfer id's. This is an undirected graph, adds an
-           edge from v1 to v2 and an edge from v2 to v1.'''
-        if v1 not in self.vertices[v2].adjacent_to:
-            self.vertices[v2].adjacent_to.append(v1)
-        if v2 not in self.vertices[v1].adjacent_to:
-            self.vertices[v1].adjacent_to.append(v2)
+            '''v1 and v2 are transfer id's. This is an undirected graph, adds an
+               edge from v1 to v2 and an edge from v2 to v1.'''
+            if v1 != None and v2 != None:
+                if v1 not in self.vertices[v2].adjacent_to:
+                    self.vertices[v2].adjacent_to.append(v1)
+                if v2 not in self.vertices[v1].adjacent_to:
+                    self.vertices[v1].adjacent_to.append(v2)
 
     def get_vertex(self, key):
         '''Return the Vertex object associated with the id. If id is not in the graph, return None'''
@@ -74,4 +73,5 @@ class Graph:
                 for new_path in new_paths:
                     paths.append(new_path)
         return paths
+
 

@@ -4,16 +4,17 @@ from graph import *
 class TestList(unittest.TestCase):
 
     def test_01(self):
-        g = Graph('transfers.txt')
-        self.assertEqual(g.get_vertex('719').adjacent_to, ['719', 'F09', 'G22'])
-        self.assertEqual(g.get_vertex('235').adjacent_to, ['235', 'D24', 'R31'])
+        g = Graph()
+        self.assertEqual(g.get_vertex('J19N').adjacent_to, ['J20N', 'J17N', 'J16N'])
+        self.assertEqual(g.get_vertex('706N').adjacent_to, ['707N', '705N'])
 
     def test_find_all_paths(self):
-        g = Graph('transfers.txt')
-        self.assertEqual(g.find_all_paths('639', 'Q01'), [['639', 'M20', 'Q01'], ['639', 'M20', 'R23', 'Q01'], \
-                                                          ['639', 'Q01'], ['639', 'R23', 'M20', 'Q01'], ['639', 'R23', 'Q01']])
+        g = Graph()
+        self.assertEqual(g.find_all_paths('F01N', 'F03N'), [['F01N', 'F03N'], ['F01N', 'F02N', 'F03N']])
+
+
 
 
 
 if __name__ == '__main__':
-   unittest.main()
+    unittest.main()
